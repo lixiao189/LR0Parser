@@ -2,8 +2,8 @@
 #define __LRPARSER_H__
 
 #include "Automaton.h"
-#include <memory>
 #include <iostream>
+#include <memory>
 
 using AutomatonPtr = std::unique_ptr<Automaton>;
 

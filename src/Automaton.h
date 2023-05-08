@@ -6,10 +6,11 @@
 class Automaton {
 private:
   std::vector<Production> productions;
+
 public:
   Automaton();
   ~Automaton();
-  
+
   void add_production(Production production);
   std::vector<Production> get_productions() const;
 };

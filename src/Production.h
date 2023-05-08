@@ -7,6 +7,7 @@ class Production {
 private:
   std::string left;
   std::string right;
+
 public:
   Production(std::string left, std::string right);
   std::string get_left() const;
