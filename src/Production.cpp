@@ -1,18 +1,18 @@
 #include "Production.h"
 
-Production::Production(std::string left, std::string right) {
-  this->left = left;
-  this->right = right;
+Production::Production(std::string lhs, std::string rhs) {
+  this->lhs = lhs;
+  this->rhs = rhs;
 }
 
-std::string Production::get_left() const {
-  return this->left;
+std::string Production::get_lhs() const {
+  return this->lhs;
 }
 
-std::string Production::get_right() const {
-  return this->right;
+std::string Production::get_rhs() const {
+  return this->rhs;
 }
 
 std::string Production::to_string() const {
-  return this->left + " -> " + this->right;
+  return this->lhs + " -> " + this->rhs;
 }

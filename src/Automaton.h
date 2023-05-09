@@ -5,14 +5,14 @@
 #include <vector>
 class Automaton {
 private:
-  std::vector<Production> productions;
+  std::vector<Production> rules; // 所有当前文法的产生式
 
 public:
   Automaton();
   ~Automaton();
 
   void add_production(Production production);
-  std::vector<Production> get_productions() const;
+  std::vector<Production> get_rules() const;
 };
 
 #endif // __AUTOMATON_H__

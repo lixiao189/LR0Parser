@@ -5,13 +5,13 @@
 
 class Production {
 private:
-  std::string left;
-  std::string right;
+  std::string lhs;
+  std::string rhs;
 
 public:
-  Production(std::string left, std::string right);
-  std::string get_left() const;
-  std::string get_right() const;
+  Production(std::string, std::string);
+  std::string get_lhs() const;
+  std::string get_rhs() const;
   std::string to_string() const;
 };
 
