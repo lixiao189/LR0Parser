@@ -1,6 +1,8 @@
 #include "Automaton.h"
 #include "Item.h"
+#include "Production.h"
 #include <iostream>
+#include <memory>
 #include <ostream>
 #include <vector>
 
@@ -8,9 +10,9 @@ Automaton::Automaton() {}
 
 Automaton::~Automaton() {}
 
-void Automaton::add_production(Production production) { this->rules.push_back(production); }
+void Automaton::add_production(ProductionPtr production) { this->rules.push_back(production); }
 
-std::vector<Production> Automaton::get_rules() const { return this->rules; }
+std::vector<ProductionPtr> Automaton::get_rules() const { return this->rules; }
 
 /**
  * @brief 求项目集闭包
@@ -27,17 +29,19 @@ void Automaton::get_closure(ItemSet &item_set) {
   auto prev_size = 0;
   while (prev_size != item_set.size()) {
     prev_size = item_set.size();
-    for (auto &item : item_set) {
-      auto dot_pos = item.get_dot_pos();
-      auto production = item.get_production();
+    for (auto item : item_set) {
+      auto dot_pos = item->get_dot_pos();
+      auto production = item->get_production();
 
-      if (dot_pos < production.get_rhs().size()) {
-        auto next_char = production.get_rhs()[dot_pos];
+      if (dot_pos < production->get_rhs().size()) {
+        auto next_char = production->get_rhs()[dot_pos];
         for (auto rule : rules) {
-          if (rule.get_lhs()[0] == next_char) {
-            Item new_item(rule, 0);
+          if (rule->get_lhs()[0] == next_char) {
+            auto new_item = std::make_shared<Item>(rule, 0);
 
-            if (std::find(item_set.begin(), item_set.end(), new_item) == item_set.end()) {
+            if (std::find_if(item_set.begin(), item_set.end(),
+                             [&](const std::shared_ptr<Item> &item) { return *item == *new_item; })
+                == item_set.end()) {
               item_set.push_back(new_item);
             }
           }
@@ -58,15 +62,15 @@ void Automaton::build_automaon() {
   }
 
   // 构建初始状态
-  Item initial_item(rules[rules.size() - 1], 0);
+  auto initial_item = std::make_shared<Item>(rules[rules.size() - 1], 0);
   ItemSet initial_item_set;
   initial_item_set.push_back(initial_item);
   get_closure(initial_item_set);
-  item_sets.push_back(initial_item_set);
+  item_sets.push_back(std::move(initial_item_set));
 
-  // Debug: Output the initial item set
-  std::cout << "Initial item set: " << std::endl;
-  for (auto item : initial_item_set) {
-    std::cout << item.to_string() << std::endl;
+  // 输出初始状态
+  std::cout << "I0: " << std::endl;
+  for (auto item : item_sets[0]) {
+    std::cout << item->to_string() << std::endl;
   }
 }

@@ -19,11 +19,11 @@ LRParser::LRParser(std::string LR0_STR) {
       auto lhs = line.substr(0, arrow_pos);
       auto rhs = line.substr(arrow_pos + 2);
 
-      automaton->add_production(Production(lhs, rhs));
+      automaton->add_production(std::make_shared<Production>(lhs, rhs));
     }
     prev = pos + 1;
   }
-  automaton->add_production(Production(SYNTHETIC_START, automaton->get_rules()[0].get_lhs())); // 构建增广文法
+  automaton->add_production(std::make_shared<Production>(SYNTHETIC_START, automaton->get_rules()[0]->get_lhs())); // 构建增广文法
 
   automaton->build_automaon(); // 构建 LR0 自动机
 }

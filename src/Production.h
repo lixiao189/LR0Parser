@@ -22,4 +22,6 @@ public:
   }
 };
 
+using ProductionPtr = std::shared_ptr<Production>;
+
 #endif // __PRODUCTION_H__
