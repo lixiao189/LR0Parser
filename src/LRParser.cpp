@@ -5,7 +5,6 @@
 std::string LRParser::SYNTHETIC_START = "G";
 
 LRParser::LRParser(std::string LR0_STR) {
-
   // 创建自动机对象
   automaton = std::make_unique<Automaton>();
 
@@ -20,10 +19,17 @@ LRParser::LRParser(std::string LR0_STR) {
       auto rhs = line.substr(arrow_pos + 2);
 
       automaton->add_production(std::make_shared<Production>(lhs, rhs));
+
+      // 添加符号集
+      symbols.insert(lhs[0]);
+      for (auto c : rhs) {
+        symbols.insert(c);
+      }
     }
     prev = pos + 1;
   }
-  automaton->add_production(std::make_shared<Production>(SYNTHETIC_START, automaton->get_rules()[0]->get_lhs())); // 构建增广文法
+  automaton->add_production(std::make_shared<Production>(
+      SYNTHETIC_START, automaton->get_rules()[0]->get_lhs())); // 构建增广文法
 
   automaton->build_automaon(); // 构建 LR0 自动机
 }

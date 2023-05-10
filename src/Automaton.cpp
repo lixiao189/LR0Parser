@@ -63,14 +63,8 @@ void Automaton::build_automaon() {
 
   // 构建初始状态
   auto initial_item = std::make_shared<Item>(rules[rules.size() - 1], 0);
-  ItemSet initial_item_set;
-  initial_item_set.push_back(initial_item);
-  get_closure(initial_item_set);
-  item_sets.push_back(std::move(initial_item_set));
-
-  // 输出初始状态
-  std::cout << "I0: " << std::endl;
-  for (auto item : item_sets[0]) {
-    std::cout << item->to_string() << std::endl;
-  }
+  ItemSet initial_state;
+  initial_state.push_back(initial_item);
+  get_closure(initial_state);
+  states.push_back(std::move(initial_state));
 }

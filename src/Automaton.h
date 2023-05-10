@@ -12,8 +12,8 @@ using ItemSet = std::vector<std::shared_ptr<Item>>;
 
 class Automaton {
 private:
-  std::vector<ProductionPtr> rules;  // 所有当前文法的产生式
-  std::vector<ItemSet> item_sets; // 项目集规范族
+  std::vector<ProductionPtr> rules; // 所有当前文法的产生式
+  std::vector<ItemSet> states;      // 项目集规范族
 
 public:
   Automaton();
