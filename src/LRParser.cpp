@@ -21,9 +21,9 @@ LRParser::LRParser(std::string LR0_STR) {
       automaton->add_production(std::make_shared<Production>(lhs, rhs));
 
       // 添加符号集
-      symbols.insert(lhs[0]);
+      automaton->add_symbol(lhs[0]);
       for (auto c : rhs) {
-        symbols.insert(c);
+        automaton->add_symbol(c);
       }
     }
     prev = pos + 1;
