@@ -28,16 +28,17 @@ public:
   void add_terminals(char symbol);
   void add_noneterminals(char symbol);
   void add_symbol(char symbol);
-  std::vector<ProductionPtr> get_rules() const;
-
-  std::map<int, std::map<char, int>> get_transitions();
-  std::set<char> get_terminals();
-  std::set<char> get_noneterminals();
+  
+  std::vector<ProductionPtr>& get_rules();
+  std::map<int, std::map<char, int>>& get_transitions();
+  std::set<char>& get_symbols();
+  std::set<char>& get_terminals();
+  std::set<char>& get_noneterminals();
+  std::vector<State>& get_states();
 
   void get_closure(State &item_set); // 求项目集闭包
   State compute_goto(State &item_set, char symbol);
   void build_automaton(); // 构建 LR0 自动机
-  void output_automaton();
 
   static bool is_same_state(State &s1, State &s2);
 };

@@ -19,13 +19,17 @@ void Automaton::add_noneterminals(char symbol) { none_terminals.insert(symbol); 
 
 void Automaton::add_symbol(char symbol) { symbols.insert(symbol); }
 
-std::vector<ProductionPtr> Automaton::get_rules() const { return this->rules; }
+std::vector<ProductionPtr>& Automaton::get_rules() { return this->rules; }
 
-std::map<int, std::map<char, int>> Automaton::get_transitions() { return this->transitions; }
+std::map<int, std::map<char, int>>& Automaton::get_transitions() { return this->transitions; }
 
-std::set<char> Automaton::get_terminals() { return this->terminals; }
+std::set<char>& Automaton::get_symbols() { return this->symbols; }
 
-std::set<char> Automaton::get_noneterminals() { return this->none_terminals; }
+std::set<char>& Automaton::get_terminals() { return this->terminals; }
+
+std::set<char>& Automaton::get_noneterminals() { return this->none_terminals; }
+
+std::vector<State>& Automaton::get_states() { return this->states; }
 
 /**
  * @brief 判断是否是同一个状态
@@ -149,30 +153,4 @@ void Automaton::build_automaton() {
       transitions[i][symbol] = j;
     }
   }
-}
-
-void Automaton::output_automaton() {
-  // 输出状态集合
-  std::cout << "States: " << std::endl;
-  for (auto i = 0; i < states.size(); i++) {
-    std::cout << "I" << i << ": ";
-    for (auto item : states[i]) {
-      std::cout << item->to_string() << " ";
-    }
-    std::cout << std::endl;
-  }
-
-  std::cout << std::endl;
-
-  // 输出转移函数
-  std::cout << "Transitions: " << std::endl;
-  for (auto i = 0; i < states.size(); i++) {
-    for (auto symbol : symbols) {
-      if (transitions[i].find(symbol) != transitions[i].end()) {
-        std::cout << "I" << i << " --" << symbol << "--> I" << transitions[i][symbol] << std::endl;
-      }
-    }
-  }
-
-  std::cout << std::endl;
 }
