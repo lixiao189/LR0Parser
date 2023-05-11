@@ -39,7 +39,7 @@ LRParser::LRParser(std::string LR0_STR) {
     prev = pos + 1;
   }
   automaton->add_production(
-      std::make_shared<Production>(automaton->get_rules().size(), std::to_string(SYNTHETIC_START),
+      std::make_shared<Production>(automaton->get_rules().size(), std::string(1, SYNTHETIC_START),
                                    automaton->get_rules()[0]->get_lhs())); // 构建增广文法
 
   automaton->build_automaton(); // 构建 LR0 自动机
@@ -57,7 +57,7 @@ LRParser::~LRParser() {}
 void LRParser::build_action_table() {
   for (int i = 0; i < automaton->get_states().size(); i++) {
     if (automaton->get_states()[i].size() == 1) { // accept 或者 reduce
-      if (automaton->get_states()[i][0]->get_production()->get_lhs() == std::to_string(SYNTHETIC_START)) {
+      if (automaton->get_states()[i][0]->get_production()->get_lhs() == std::string(1, SYNTHETIC_START)) {
         action_table[i][SYNTHETIC_END] = "accept";
       } else {
         for (auto symbol : automaton->get_terminals()) {

@@ -111,7 +111,7 @@ State Automaton::compute_goto(State &state, char symbol) {
   }
 
   get_closure(new_state);
-  return std::move(new_state); // TODO maybe has bug
+  return std::move(new_state);
 }
 
 /**
