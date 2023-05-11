@@ -3,6 +3,7 @@
 
 #include "Item.h"
 #include "Production.h"
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -28,13 +29,13 @@ public:
   void add_terminals(char symbol);
   void add_noneterminals(char symbol);
   void add_symbol(char symbol);
-  
-  std::vector<ProductionPtr>& get_rules();
-  std::map<int, std::map<char, int>>& get_transitions();
-  std::set<char>& get_symbols();
-  std::set<char>& get_terminals();
-  std::set<char>& get_noneterminals();
-  std::vector<State>& get_states();
+
+  std::vector<ProductionPtr> &get_rules();
+  std::map<int, std::map<char, int>> &get_transitions();
+  std::set<char> &get_symbols();
+  std::set<char> &get_terminals();
+  std::set<char> &get_noneterminals();
+  std::vector<State> &get_states();
 
   void get_closure(State &item_set); // 求项目集闭包
   State compute_goto(State &item_set, char symbol);

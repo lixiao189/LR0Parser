@@ -1,6 +1,7 @@
 #ifndef __PRODUCTION_H__
 #define __PRODUCTION_H__
 
+#include <memory>
 #include <string>
 
 class Production {
