@@ -5,14 +5,16 @@
 
 class Production {
 private:
+  int id;
   std::string lhs;
   std::string rhs;
 
 public:
   Production();
-  Production(std::string, std::string);
+  Production(int id, std::string, std::string);
   Production(const Production&);
 
+  int get_id() const;
   std::string get_lhs() const;
   std::string get_rhs() const;
   std::string to_string() const;

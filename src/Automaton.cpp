@@ -1,5 +1,6 @@
 #include "Automaton.h"
 #include "Item.h"
+#include "LRParser.h"
 #include "Production.h"
 #include <iostream>
 #include <memory>
@@ -12,9 +13,19 @@ Automaton::~Automaton() {}
 
 void Automaton::add_production(ProductionPtr production) { this->rules.push_back(production); }
 
+void Automaton::add_terminals(char symbol) { terminals.insert(symbol); }
+
+void Automaton::add_noneterminals(char symbol) { none_terminals.insert(symbol); }
+
 void Automaton::add_symbol(char symbol) { symbols.insert(symbol); }
 
 std::vector<ProductionPtr> Automaton::get_rules() const { return this->rules; }
+
+std::map<int, std::map<char, int>> Automaton::get_transitions() { return this->transitions; }
+
+std::set<char> Automaton::get_terminals() { return this->terminals; }
+
+std::set<char> Automaton::get_noneterminals() { return this->none_terminals; }
 
 /**
  * @brief 判断是否是同一个状态
@@ -103,7 +114,7 @@ State Automaton::compute_goto(State &state, char symbol) {
  * @brief 构建自动机
  *
  */
-void Automaton::build_automaon() {
+void Automaton::build_automaton() {
   if (rules.empty()) {
     std::cout << "No production rules!" << std::endl;
     return;
@@ -115,8 +126,6 @@ void Automaton::build_automaon() {
   initial_state.push_back(initial_item);
   get_closure(initial_state);
   states.push_back(std::move(initial_state));
-
-  auto transitions = std::map<int, std::map<int, int>>{}; // 状态转移函数
 
   // 构建状态转移函数
   for (auto i = 0; i < states.size(); i++) {
@@ -140,7 +149,9 @@ void Automaton::build_automaon() {
       transitions[i][symbol] = j;
     }
   }
+}
 
+void Automaton::output_automaton() {
   // 输出状态集合
   std::cout << "States: " << std::endl;
   for (auto i = 0; i < states.size(); i++) {
@@ -151,6 +162,8 @@ void Automaton::build_automaon() {
     std::cout << std::endl;
   }
 
+  std::cout << std::endl;
+
   // 输出转移函数
   std::cout << "Transitions: " << std::endl;
   for (auto i = 0; i < states.size(); i++) {
@@ -160,4 +173,6 @@ void Automaton::build_automaon() {
       }
     }
   }
+
+  std::cout << std::endl;
 }
