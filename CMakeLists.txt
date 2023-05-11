@@ -14,7 +14,7 @@ add_executable(
     src/main.cpp 
     src/data.cpp 
     src/Item.cpp 
-    src/production.cpp
+    src/Production.cpp
     src/LRParser.cpp
     src/Automaton.cpp
 )
