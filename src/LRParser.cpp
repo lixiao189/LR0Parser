@@ -1,6 +1,7 @@
 #include "LRParser.h"
 #include "Automaton.h"
 #include "Production.h"
+#include <fstream>
 #include <memory>
 #include <string>
 
@@ -99,37 +100,40 @@ void LRParser::build_goto_table() {
  *
  */
 void LRParser::output_automaton() {
+  std::ofstream outfile("output.txt", std::ios::app);
   // 输出文法
-  std::cout << "Grammar: " << std::endl;
+  outfile << "Grammar: " << std::endl;
   for (auto i = 0; i < automaton->get_rules().size(); i++) {
-    std::cout << i << ": " << automaton->get_rules()[i]->to_string() << std::endl;
+    outfile << i << ": " << automaton->get_rules()[i]->to_string() << std::endl;
   }
-  std::cout << std::endl;
+  outfile << std::endl;
 
   // 输出状态集合
-  std::cout << "States: " << std::endl;
+  outfile << "States: " << std::endl;
   for (auto i = 0; i < automaton->get_states().size(); i++) {
-    std::cout << "I" << i << ": ";
+    outfile << "I" << i << ": ";
     for (auto item : automaton->get_states()[i]) {
-      std::cout << item->to_string() << " ";
+      outfile << item->to_string() << " ";
     }
-    std::cout << std::endl;
+    outfile << std::endl;
   }
 
-  std::cout << std::endl;
+  outfile << std::endl;
 
   // 输出转移函数
-  std::cout << "Transitions: " << std::endl;
+  outfile << "Transitions: " << std::endl;
   for (auto i = 0; i < automaton->get_states().size(); i++) {
     for (auto symbol : automaton->get_symbols()) {
       if (automaton->get_transitions()[i].find(symbol) != automaton->get_transitions()[i].end()) {
-        std::cout << "I" << i << " --" << symbol << "--> I"
+        outfile << "I" << i << " --" << symbol << "--> I"
                   << automaton->get_transitions()[i][symbol] << std::endl;
       }
     }
   }
 
-  std::cout << std::endl;
+  outfile << std::endl;
+
+  outfile.close();
 }
 
 /**
@@ -137,38 +141,42 @@ void LRParser::output_automaton() {
  *
  */
 void LRParser::output_action_goto_table() {
+  std::ofstream outfile("output.txt", std::ios::app);
+
   // Output the table header
   for (auto symbol : automaton->get_terminals()) {
-    std::cout << "\t" << symbol;
+    outfile << "\t" << symbol;
   }
-  std::cout << "\t" << SYNTHETIC_END;
+  outfile << "\t" << SYNTHETIC_END;
   for (auto symbol : automaton->get_noneterminals()) {
-    std::cout << "\t" << symbol;
+    outfile << "\t" << symbol;
   }
 
   for (int i = 0; i < automaton->get_states().size(); i++) {
-    std::cout << std::endl << i;
+    outfile << std::endl << i;
     for (auto symbol : automaton->get_terminals()) {
       if (action_table[i].find(symbol) != action_table[i].end()) {
-        std::cout << "\t" << action_table[i][symbol];
+        outfile << "\t" << action_table[i][symbol];
       } else {
-        std::cout << "\t";
+        outfile << "\t";
       }
     }
 
     // symbol == '#'
     if (action_table[i].find('#') != action_table[i].end()) {
-      std::cout << "\t" << action_table[i]['#'];
+      outfile << "\t" << action_table[i]['#'];
     } else {
-      std::cout << "\t";
+      outfile << "\t";
     }
 
     for (auto symbol : automaton->get_noneterminals()) {
       if (goto_table[i].find(symbol) != goto_table[i].end()) {
-        std::cout << "\t" << goto_table[i][symbol];
+        outfile << "\t" << goto_table[i][symbol];
       } else {
-        std::cout << "\t";
+        outfile << "\t";
       }
     }
   }
+
+  outfile.close();
 }
