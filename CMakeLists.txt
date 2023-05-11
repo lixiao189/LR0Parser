@@ -13,7 +13,7 @@ add_executable(
     # Source code list
     src/main.cpp 
     src/data.cpp 
-    src/item.cpp 
+    src/Item.cpp 
     src/production.cpp
     src/LRParser.cpp
     src/Automaton.cpp
