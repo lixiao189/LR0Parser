@@ -11,25 +11,31 @@ Automaton::Automaton() {}
 
 Automaton::~Automaton() {}
 
-void Automaton::add_production(ProductionPtr production) { this->rules.push_back(production); }
+void Automaton::add_production(ProductionPtr production) {
+  this->rules.push_back(production);
+}
 
 void Automaton::add_terminals(char symbol) { terminals.insert(symbol); }
 
-void Automaton::add_noneterminals(char symbol) { none_terminals.insert(symbol); }
+void Automaton::add_noneterminals(char symbol) {
+  none_terminals.insert(symbol);
+}
 
 void Automaton::add_symbol(char symbol) { symbols.insert(symbol); }
 
-std::vector<ProductionPtr>& Automaton::get_rules() { return this->rules; }
+std::vector<ProductionPtr> &Automaton::get_rules() { return this->rules; }
 
-std::map<int, std::map<char, int>>& Automaton::get_transitions() { return this->transitions; }
+std::map<int, std::map<char, int>> &Automaton::get_transitions() {
+  return this->transitions;
+}
 
-std::set<char>& Automaton::get_symbols() { return this->symbols; }
+std::set<char> &Automaton::get_symbols() { return this->symbols; }
 
-std::set<char>& Automaton::get_terminals() { return this->terminals; }
+std::set<char> &Automaton::get_terminals() { return this->terminals; }
 
-std::set<char>& Automaton::get_noneterminals() { return this->none_terminals; }
+std::set<char> &Automaton::get_noneterminals() { return this->none_terminals; }
 
-std::vector<State>& Automaton::get_states() { return this->states; }
+std::vector<State> &Automaton::get_states() { return this->states; }
 
 /**
  * @brief 判断是否是同一个状态
@@ -45,9 +51,9 @@ bool Automaton::is_same_state(State &s1, State &s2) {
   }
 
   for (auto item : s1) {
-    if (std::find_if(s2.begin(), s2.end(),
-                     [&](const std::shared_ptr<Item> &i) { return *item == *i; })
-        == s2.end()) {
+    if (std::find_if(s2.begin(), s2.end(), [&](const std::shared_ptr<Item> &i) {
+          return *item == *i;
+        }) == s2.end()) {
       return false;
     }
   }
@@ -80,8 +86,9 @@ void Automaton::get_closure(State &item_set) {
             auto new_item = std::make_shared<Item>(rule, 0);
 
             if (std::find_if(item_set.begin(), item_set.end(),
-                             [&](const std::shared_ptr<Item> &item) { return *item == *new_item; })
-                == item_set.end()) {
+                             [&](const std::shared_ptr<Item> &item) {
+                               return *item == *new_item;
+                             }) == item_set.end()) {
               item_set.push_back(new_item);
             }
           }
@@ -104,7 +111,8 @@ State Automaton::compute_goto(State &state, char symbol) {
     auto dot_pos = item->get_dot_pos();
     auto production = item->get_production();
 
-    if (dot_pos < production->get_rhs().size() && production->get_rhs()[dot_pos] == symbol) {
+    if (dot_pos < production->get_rhs().size() &&
+        production->get_rhs()[dot_pos] == symbol) {
       auto new_item = std::make_shared<Item>(production, dot_pos + 1);
       new_state.push_back(new_item);
     }

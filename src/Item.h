@@ -7,7 +7,7 @@
 
 class Item {
 private:
-  int dot_pos;              // dot pos 代表点的位置 dot_pos = 0 的时候点在第 0 个字符的前面
+  int dot_pos; // dot pos 代表点的位置 dot_pos = 0 的时候点在第 0 个字符的前面
   ProductionPtr production; // 对应的产生式
 
 public:
@@ -17,8 +17,9 @@ public:
   std::string to_string() const;
 
   bool operator==(const Item &item) const {
-    return this->dot_pos == item.dot_pos && *(this->production) == *(item.production);
-  }  
+    return this->dot_pos == item.dot_pos &&
+           *(this->production) == *(item.production);
+  }
 };
 
 using ItemPtr = std::shared_ptr<Item>;

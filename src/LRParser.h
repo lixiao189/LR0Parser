@@ -17,7 +17,7 @@ private:
   std::map<int, std::map<char, std::string>> goto_table;   // goto 表
 public:
   static char SYNTHETIC_START; // 增广文法的开始符号
-  static char SYNTHETIC_END; // 增广文法的开始符号
+  static char SYNTHETIC_END;   // 增广文法的开始符号
 
   void build_action_table();
   void build_goto_table();

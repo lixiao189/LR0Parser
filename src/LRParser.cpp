@@ -6,7 +6,7 @@
 #include <string>
 
 char LRParser::SYNTHETIC_START = 'G';
-char LRParser::SYNTHETIC_END= '#';
+char LRParser::SYNTHETIC_END = '#';
 
 LRParser::LRParser(std::string LR0_STR) {
   // 创建自动机对象
@@ -22,8 +22,8 @@ LRParser::LRParser(std::string LR0_STR) {
       auto lhs = line.substr(0, arrow_pos);
       auto rhs = line.substr(arrow_pos + 2);
 
-      automaton->add_production(
-          std::make_shared<Production>(automaton->get_rules().size(), lhs, rhs));
+      automaton->add_production(std::make_shared<Production>(
+          automaton->get_rules().size(), lhs, rhs));
 
       // 添加符号
       automaton->add_symbol(lhs[0]);
@@ -39,9 +39,9 @@ LRParser::LRParser(std::string LR0_STR) {
     }
     prev = pos + 1;
   }
-  automaton->add_production(
-      std::make_shared<Production>(automaton->get_rules().size(), std::string(1, SYNTHETIC_START),
-                                   automaton->get_rules()[0]->get_lhs())); // 构建增广文法
+  automaton->add_production(std::make_shared<Production>(
+      automaton->get_rules().size(), std::string(1, SYNTHETIC_START),
+      automaton->get_rules()[0]->get_lhs())); // 构建增广文法
 
   automaton->build_automaton(); // 构建 LR0 自动机
 
@@ -58,20 +58,27 @@ LRParser::~LRParser() {}
 void LRParser::build_action_table() {
   for (int i = 0; i < automaton->get_states().size(); i++) {
     if (automaton->get_states()[i].size() == 1) { // accept 或者 reduce
-      if (automaton->get_states()[i][0]->get_production()->get_lhs() == std::string(1, SYNTHETIC_START)) {
+      if (automaton->get_states()[i][0]->get_production()->get_lhs() ==
+          std::string(1, SYNTHETIC_START)) {
         action_table[i][SYNTHETIC_END] = "accept";
       } else {
         for (auto symbol : automaton->get_terminals()) {
-          if (automaton->get_states()[i][0]->get_dot_pos()
-              == automaton->get_states()[i][0]->get_production()->get_rhs().size()) {
-            action_table[i][symbol]
-                = "r" + std::to_string(automaton->get_states()[i][0]->get_production()->get_id());
+          if (automaton->get_states()[i][0]->get_dot_pos() ==
+              automaton->get_states()[i][0]
+                  ->get_production()
+                  ->get_rhs()
+                  .size()) {
+            action_table[i][symbol] =
+                "r" +
+                std::to_string(
+                    automaton->get_states()[i][0]->get_production()->get_id());
           }
         }
       }
     } else { // shift
       for (auto symbol : automaton->get_terminals()) {
-        if (automaton->get_transitions()[i].find(symbol) != automaton->get_transitions()[i].end()) {
+        if (automaton->get_transitions()[i].find(symbol) !=
+            automaton->get_transitions()[i].end()) {
           auto target = automaton->get_transitions()[i][symbol];
           action_table[i][symbol] = "s" + std::to_string(target);
         }
@@ -87,7 +94,8 @@ void LRParser::build_action_table() {
 void LRParser::build_goto_table() {
   for (int i = 0; i < automaton->get_states().size(); i++) {
     for (auto symbol : automaton->get_noneterminals()) {
-      if (automaton->get_transitions()[i].find(symbol) != automaton->get_transitions()[i].end()) {
+      if (automaton->get_transitions()[i].find(symbol) !=
+          automaton->get_transitions()[i].end()) {
         auto target = automaton->get_transitions()[i][symbol];
         goto_table[i][symbol] = std::to_string(target);
       }
@@ -124,9 +132,10 @@ void LRParser::output_automaton() {
   outfile << "Transitions: " << std::endl;
   for (auto i = 0; i < automaton->get_states().size(); i++) {
     for (auto symbol : automaton->get_symbols()) {
-      if (automaton->get_transitions()[i].find(symbol) != automaton->get_transitions()[i].end()) {
+      if (automaton->get_transitions()[i].find(symbol) !=
+          automaton->get_transitions()[i].end()) {
         outfile << "I" << i << " --" << symbol << "--> I"
-                  << automaton->get_transitions()[i][symbol] << std::endl;
+                << automaton->get_transitions()[i][symbol] << std::endl;
       }
     }
   }

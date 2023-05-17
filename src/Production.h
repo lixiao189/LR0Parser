@@ -13,7 +13,7 @@ private:
 public:
   Production();
   Production(int id, std::string, std::string);
-  Production(const Production&);
+  Production(const Production &);
 
   int get_id() const;
   std::string get_lhs() const;

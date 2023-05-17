@@ -14,11 +14,11 @@ using State = std::vector<std::shared_ptr<Item>>;
 
 class Automaton {
 private:
-  std::vector<ProductionPtr> rules;               // 所有当前文法的产生式
-  std::vector<State> states;                      // 项目集规范族
-  std::set<char> terminals;                       // 终结符集
-  std::set<char> none_terminals;                  // 非终结符集
-  std::set<char> symbols;                         // 符号集，包括终结符和非终结符
+  std::vector<ProductionPtr> rules; // 所有当前文法的产生式
+  std::vector<State> states;        // 项目集规范族
+  std::set<char> terminals;         // 终结符集
+  std::set<char> none_terminals;    // 非终结符集
+  std::set<char> symbols; // 符号集，包括终结符和非终结符
   std::map<int, std::map<char, int>> transitions; // 状态转移函数
 
 public:
